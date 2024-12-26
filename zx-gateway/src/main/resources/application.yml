@@ -1,0 +1,52 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: zx-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        # 业务路由
+        - id: zx-app
+          uri: lb://zx-app
+          predicates:
+            - Path=/zx-app/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix,/zx-app
+        - id: zx-admin
+          uri: lb://zx-admin
+          predicates:
+            - Path=/zx-admin/**
+          filters:
+            - StripPrefix=1
+            - AddRequestHeader=X-Forwarded-Prefix,/zx-admin
+            
+        # API文档路由
+        - id: openapi
+          uri: http://localhost:${server.port}
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    urls:
+      - name: zx-app
+        url: /zx-app/v3/api-docs
+      - name: zx-admin
+        url: /zx-admin/v3/api-docs
+    urls-primary-name: zx-app

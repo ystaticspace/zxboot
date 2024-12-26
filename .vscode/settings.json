@@ -1,0 +1,8 @@
+{
+    "maven.view": "hierarchical",
+    "java.compile.nullAnalysis.mode": "automatic",
+    "cSpell.words": [
+        "Configurer"
+    ],
+    "java.dependency.packagePresentation": "flat"
+}

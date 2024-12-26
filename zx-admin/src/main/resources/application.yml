@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: zx-admin
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        username: nacos
+        password: nacos
+server:
+  port: 8081
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  packages-to-scan: com.demo.controller
+  default-produces-media-type: application/json
+  paths-to-match: /**
